@@ -866,6 +866,9 @@ type pullFn func(ctx context.Context, name string, fn api.PullProgressFunc) erro
 
 func getLocalPuller(insecure bool) (p pullFn, err error) {
 	p = func(ctx context.Context, name string, fn api.PullProgressFunc) error {
+		if err := initializeKeypair(); err != nil {
+			return err
+		}
 		opts := &server.RegistryOptions{
 			Insecure: insecure,
 		}
